@@ -1,0 +1,5 @@
+%label Question:
+= question.text_field :title, placeholder: 'Text here...'
+%label
+  = question.fields_for :answers do |answer_builder|
+    = render partial: 'answer', locals: { answer: answer_builder }

@@ -1,0 +1,11 @@
+%table
+  %thead
+    %tr
+      %th Name
+      %th Actions
+      %th
+  %tbody
+    - @polls.each do |poll|
+      %tr
+        %td= poll.name
+        %td= link_to 'Edit', edit_poll_path(poll.id)

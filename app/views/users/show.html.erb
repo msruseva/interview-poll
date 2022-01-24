@@ -1,0 +1,7 @@
+<h2>Vote for <%= @user.votes.count %> questions:</h2>
+
+<% @user.votes.each do |vote| %>
+  <div class="panel panel-default">
+    <div class="panel-heading"><%= link_to vote.question.title, poll_path(vote.question.poll) %></div>
+  </div>
+<% end %>

@@ -1,0 +1,24 @@
+<% content_for(:page_header) {"Vote for a question"} %>
+
+<h2><%= @poll.name %></h2>
+
+<%= form_tag(votes_path, method: :post, remote: true, id: 'voting_form') do %>
+  <%= hidden_field_tag 'poll[id]', @poll.id %>
+
+  <%= render partial: 'question_fields', locals: { questions: @poll.questions } %>
+
+  <% if current_user.voted_for?(@poll) %>
+    <p>You have already voted for qestions from the poll - <%= @poll.name %> </p>
+
+    <% @poll.questions.each do |question|%>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item list-group-item-info"><%= question.title %></li>
+        <% question.answers.each do |answer| %>
+          <li class="list-group-item"><%= answer.answer_text %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% else %>
+    <%= submit_tag 'Vote', class: 'btn btn-warning btn-sm' %>
+  <% end %>
+<% end %>

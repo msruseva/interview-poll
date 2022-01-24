@@ -1,0 +1,26 @@
+<% if logged_in? %>
+  <% content_for(:page_header) {"Vote for a question."} %>
+
+  <div class="col-sm-6 col-sm-offset-3">
+    <% @polls.each do |poll| %>
+      <div class="well">
+        <h3><%= poll.name %></h2>
+
+        <p>
+          <% if current_user %>
+            <%= link_to 'Clik here to Vote', poll_path(poll), class: 'btn btn-warning block' %>
+          <% else %>
+            Please sign in via <%= link_to 'Welcome page', '/' %> to participate in this poll.
+          <% end %>
+        </p>
+
+        <div class="btn-group">
+          <%= link_to 'Edit', edit_poll_path(poll), class: 'btn btn-default btn-sm' %>
+          <%= link_to 'Delete', poll_path(poll),
+                      method: :delete,
+                      class: 'btn btn-danger btn-sm', data: {confirm: 'Are you sure?'} %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

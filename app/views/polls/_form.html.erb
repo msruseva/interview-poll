@@ -1,0 +1,31 @@
+<%= form_for(@poll) do |f| %>
+  <%= render 'shared/errors', object: @poll %>
+
+  <div class="col-sm-6 col-sm-offset-3">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Poll</div>
+        <div class="panel-body ">
+          <div class="form-group row">
+            <div class="col-xs-7">
+              <%= f.label :topic %>
+              <%= f.text_field :name, placeholder: "Enter topic of the poll", class: 'form-control', required: true %>
+            </div>
+          </div>
+
+          <div class="panel panel-info">
+            <div class="panel-heading">Questions</div>
+            <div class="panel-body question_fields">
+              <%= f.fields_for :questions do |question_builder| %>
+                <%= render 'question', f: question_builder %>
+              <% end %>
+            </div>
+
+            <%= link_to_add_question('+ Add Question', f, :questions, class: 'btn btn-info') %>
+          </div>
+        </div>
+      </div>
+
+      <%= f.submit 'Submit', class: 'btn btn-warning btn-lg' %>
+    </div>
+  </div>
+<% end %>

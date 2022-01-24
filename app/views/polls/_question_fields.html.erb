@@ -1,0 +1,17 @@
+<div class="form-group">
+  <%= content_tag(:label) do %>
+    <% unless current_user.voted_for?(@poll) %>
+      <% @poll.questions.each do |question|%>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item list-group-item-info">
+            <%= radio_button_tag 'question[id]', question.id %>
+            <%= question.title %>
+          </li>
+          <% question.answers.each do |answer| %>
+            <li class="list-group-item"><%= answer.answer_text %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

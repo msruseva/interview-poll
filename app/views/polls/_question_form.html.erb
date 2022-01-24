@@ -1,0 +1,11 @@
+<%= form_tag(votes_path, method: :post, remote: true, id: 'voting_form') do %>
+  <%= hidden_field_tag 'poll[id]', @poll.id %>
+
+  <%= render partial: 'polls/question', collection: @poll.questions %>
+
+  <% if current_user.voted_for?(@poll) %>
+    <p>You have already voted!</p>
+  <% else %>
+    <%= submit_tag 'Vote', class: 'btn btn-warning btn-sm' %>
+  <% end %>
+<% end %>

@@ -1,6 +1,11 @@
 class PollsController < ApplicationController
   def index
-    @polls = Poll.all
+    @polls = Poll.order('created_at DESC')
+  end
+
+  def show
+    @poll = Poll.includes(:questions).find_by_id(params[:id])
+    @vote = Vote.new
   end
 
   def new
@@ -10,13 +15,13 @@ class PollsController < ApplicationController
 
   def create
     @poll = Poll.new(poll_params)
-    debugger
+
     if @poll.save
       redirect_to polls_path
 
       flash[:message] = 'The poll was successfully created.'
     else
-      render 'new'
+      render :new
     end
   end
 
@@ -33,13 +38,24 @@ class PollsController < ApplicationController
 
       flash[:message] = 'The poll was successfully updated.'
     else
-      render 'edit'
+      render :edit
     end
+  end
+
+  def destroy
+    @poll = Poll.find_by_id(params[:id])
+
+    if @poll.destroy
+      flash[:success] = 'The poll was successfully deleted.'
+    else
+      flash[:warning] = 'The poll was NOT successfully deleted!'
+    end
+    redirect_to polls_path
   end
 
   private
 
   def poll_params
-    params.require(:poll).permit(:name, questions_attributes: [:id, :title, answers_attributes: [:id, :answer_text]])
+    params.require(:poll).permit(:name, questions_attributes: [:id, :title, :_destroy, answers_attributes: [:id, :answer_text, :_destroy, votes_attributes: [:id, :vote]]])
   end
 end
